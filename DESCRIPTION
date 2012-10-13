@@ -1,0 +1,21 @@
+Package: MOBSTER
+Maintainer: <tom.e.appleton@gmail.com>
+License: GPL-2
+Title: Model Order Book State Explorer (MOBSTER)
+Type: Package
+LazyLoad: true
+Author: Tom Appleton
+Description: A lightweight tool set for modelling exchange orderbook dynamics.
+	This package maintains an internal order book following the standard Central Limit Order Book 
+	algorithm. It currently supports FAK and GTC type orders.
+	Orders can be placed in the book using the 'limit' method and 'market' methods. Quotes could be generated from 
+	historical data, or from a statistical model. Executions in the order book and the full orderbook history
+	can be obtained for analysis purposes. Trades are modelled as a sequence of ordered events, and the notion of 
+	'time' between trade arrival events is currently not considered. 
+	The main engine was designed to be fast for use with large datasets.
+Version: 1.0.0
+Date: 2012-09-25
+Depends: R (>= 2.11.0),  data.table (>= 1.7.8),  testthat
+Imports: data.table (>= 1.7.8),  testthat
+Collate: 'depth-strategy.R' 'market-making-strategy.R'
+    'mavg-strategy.R' 'orderbook.R' 'poisson-book.R' 'MOBSTER-package.R' 'historical-strategy.R'
