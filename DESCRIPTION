@@ -10,8 +10,7 @@ Description: A lightweight tool set for modelling exchange orderbook dynamics.
 	algorithm. It currently supports FAK and GTC type orders.
 	Orders can be placed in the book using the 'limit' method and 'market' methods. Quotes could be generated from 
 	historical data, or from a statistical model. Executions in the order book and the full orderbook history
-	can be obtained for analysis purposes. Trades are modelled as a sequence of ordered events, and the notion of 
-	'time' between trade arrival events is currently not considered. 
+	can be obtained for analysis purposes. Trades are modelled as a sequence of ordered events. 
 	The main engine was designed to be fast for use with large datasets.
 Version: 1.0.0
 Date: 2012-09-25
