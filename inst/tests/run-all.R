@@ -1,6 +1,6 @@
 library(testthat)
 library('data.table')
-library(MOBSTER)
+library(mobster)
 
-#test_package("MOBSTER")
+#test_package("mobster")
 

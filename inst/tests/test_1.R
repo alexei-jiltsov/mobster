@@ -10,17 +10,14 @@
 init <- function(num=1000) {
 
 
-library(testthat)
-library(data.table)
-library(MOBSTER)
+	library(testthat)
+	library(data.table)
+	library(mobster)
 
-	#source('/Users/tomappleton/Documents/workspace/checkout/model-book-explorer/MOBSTER/R/poisson-book.R')
 	#source('/Users/tomappleton/Documents/workspace/checkout/model-book-explorer/MOBSTER/R/orderbook.R')
-	#dyn.load('/Users/tomappleton/roxygen/roxygen2/MOBSTER/libs/i386/MOBSTER.so')
 
-		num=100
-		.C("init", as.integer(num), as.integer(10000), as.integer(9999))
-		market("sym", "trader", 0, 92.00, 6)
+
+	.C("init", as.integer(num), as.integer(10000), as.integer(9999))
 	
 }
 
