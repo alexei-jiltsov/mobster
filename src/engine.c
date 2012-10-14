@@ -535,7 +535,7 @@ void execution(t_execution exec) {
 /* Cancel an outstanding order */
 void cancel(int* orderid, int* qty, int* time, int* externalId) {
 
-	/* in relay mode the external id will be used to cancel, not the MOBSTER generated id */
+	/* in relay mode the external id will be used to cancel, not the mobster generated id */
 	if(externalId[0] >0) {
 		orderid[0] = externalIds[externalId[0]];
 	}
