@@ -1,4 +1,4 @@
-\name{MOBSTER}
+\name{mobster}
 \title{Model Order Book State Explorer.}
 \description{Model Order Book State Explorer.}
 \details{A lightweight tool set for modelling exchange orderbook dynamics. This package maintains an internal order book
@@ -17,8 +17,8 @@ microstructure, analysing trading strategies against an orderbook, modelling tra
 Currently only one symbol is supported (ie one instrument). Future versions may be enhanced to 
 model multiple symbols.}
 \docType{package}
-\alias{MOBSTER}
-\alias{MOBSTER-package}
+\alias{mobster}
+\alias{mobster-package}
 \examples{# first initialise the book (sets the start price, and how many historical rows to clear) 
 init.book(1000)
 
