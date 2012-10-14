@@ -5,10 +5,10 @@
 #' @param pkgname the pkgname
 #' @export
 .onLoad <- function(libname, pkgname) {
-	library.dynam("MOBSTER", pkgname, libname)
+	library.dynam("mobster", pkgname, libname)
 	orders <<- data.table(id=1:1000000, sym=rep("sym",1000000), trader=rep("t",1000000), price=rep(0,1000000), side=rep(0,1000000), qty=rep(0,1000000), tradeype=rep("tt",1000000), time=rep(0,1000000), externalId=rep(0,1000000), key="id")
 	# default initialisation
-	.C("init", as.integer(100000), as.integer(100*100),as.integer(99.99*100), PACKAGE='MOBSTER')
+	.C("init", as.integer(100000), as.integer(100*100),as.integer(99.99*100), PACKAGE='mobster')
 }
 
 
@@ -28,7 +28,7 @@ limit <- function(sym, trader, side, price, qty, tradetype, time=0, externalId =
 	if(qty<=0) {
 		return(0)
 	}
-	result <<-.C("limit", as.character(sym), as.character(trader), as.integer(side), as.double(price), as.integer(qty), as.integer(0), as.character(tradetype), as.integer(time), as.integer(externalId), PACKAGE='MOBSTER')
+	result <<-.C("limit", as.character(sym), as.character(trader), as.integer(side), as.double(price), as.integer(qty), as.integer(0), as.character(tradetype), as.integer(time), as.integer(externalId), PACKAGE='mobster')
 	lastOrderId <- result[[6]]
 	
 	set(orders, as.integer(lastOrderId), as.integer(2), result[[1]]) #sym 
@@ -59,7 +59,7 @@ market <- function(sym, trader, side, price, qty, time=0, externalId = 0) {
 		return(0)
 	}
 
-	result <- .C("market",  as.character(sym), as.character(trader), as.integer(side), as.double(price), as.integer(qty), as.integer(0), as.numeric(time), as.integer(externalId), PACKAGE='MOBSTER')
+	result <- .C("market",  as.character(sym), as.character(trader), as.integer(side), as.double(price), as.integer(qty), as.integer(0), as.numeric(time), as.integer(externalId), PACKAGE='mobster')
 
 	lastOrderId <- result[[6]]
 	if(result[[6]] >0) {
@@ -132,7 +132,7 @@ get.hob <- function(n){
 	
 	obRes <<- .C("get_hob", as.integer(n), as.integer(totalTraded), as.integer(totalTrades), as.integer(ask0), as.integer(askqty0), as.integer(ask1), as.integer(askqty1), as.integer(ask2), as.integer(askqty2), as.integer(ask3), as.integer(askqty3), as.integer(ask4), as.integer(askqty4), as.integer(ask5), as.integer(askqty5), as.integer(ask6), as.integer(askqty6), as.integer(ask7), as.integer(askqty7), as.integer(ask8), as.integer(askqty8), as.integer(ask9), as.integer(askqty9), 
 	as.integer(bid0), as.integer(bidqty0), as.integer(bid1), as.integer(bidqty1), as.integer(bid2), as.integer(bidqty2), as.integer(bid3), as.integer(bidqty3), as.integer(bid4), as.integer(bidqty4), as.integer(bid5), as.integer(bidqty5), as.integer(bid6), as.integer(bidqty6), as.integer(bid7), as.integer(bidqty7), as.integer(bid8), as.integer(bidqty8), as.integer(bid9), as.integer(bidqty9), as.integer(time) 
-	, PACKAGE='MOBSTER')
+	, PACKAGE='mobster')
 
 	ob <- data.table(time=obRes[[44]], ask0=obRes[[4]], askqty0=obRes[[5]], ask1=obRes[[6]], askqty1=obRes[[7]],ask2=obRes[[8]], askqty2=obRes[[9]],ask3=obRes[[10]], askqty3=obRes[[11]],ask4=obRes[[12]], askqty4=obRes[[13]],ask5=obRes[[14]], askqty5=obRes[[15]],ask6=obRes[[16]], askqty6=obRes[[17]],ask7=obRes[[18]], askqty7=obRes[[19]],ask8=obRes[[20]], askqty8=obRes[[21]],ask9=obRes[[22]], askqty9=obRes[[23]],
 		             bid0=obRes[[24]], bidqty0=obRes[[25]], bid1=obRes[[26]], bidqty1=obRes[[27]],bid2=obRes[[28]], bidqty2=obRes[[29]],bid3=obRes[[30]], bidqty3=obRes[[31]],bid4=obRes[[32]], bidqty4=obRes[[33]],bid5=obRes[[34]], bidqty5=obRes[[35]],bid6=obRes[[36]], bidqty6=obRes[[37]],bid7=obRes[[38]], bidqty7=obRes[[39]],bid8=obRes[[40]], bidqty8=obRes[[41]],bid9=obRes[[42]], bidqty9=obRes[[43]],
@@ -154,7 +154,7 @@ get.ob <- function(){
 	q <- rep(0,n)
 	s <- c(rep(1,n/2),rep(0,n/2))
 	
-	obRes <- .C("get_ob", as.double(p), as.integer(q), as.integer(s), PACKAGE='MOBSTER')
+	obRes <- .C("get_ob", as.double(p), as.integer(q), as.integer(s), PACKAGE='mobster')
 	
 	ob <- data.frame(price=obRes[[1]], qty=obRes[[2]], side=obRes[[3]])
 	ob$price <- ob$price/100	
@@ -165,7 +165,7 @@ get.ob <- function(){
 #' @param id the orderid to get the filled qty for
 #' @export
 get.filled.qty <- function(id) {
-	qty <- .C("getFilledQty", as.integer(id), PACKAGE='MOBSTER')[[1]]
+	qty <- .C("getFilledQty", as.integer(id), PACKAGE='mobster')[[1]]
 	return(qty)
 }
 
@@ -175,13 +175,13 @@ get.filled.qty <- function(id) {
 #' @param id the orderid to cancel. 
 #' @export
 cancel <- function(id, qty=0, time=0, externalId=0) {
-	id <- .C("cancel", as.integer(id), as.integer(qty), as.integer(time), as.integer(externalId), PACKAGE='MOBSTER')[[1]]
+	id <- .C("cancel", as.integer(id), as.integer(qty), as.integer(time), as.integer(externalId), PACKAGE='mobster')[[1]]
 	return(id)
 }
 
 
 #replace <- function(ordid, sym, trader, side, price, qty) {
-#	id <- .C("replace",  as.integer(ordid), as.character(sym), as.character(trader), as.integer(side), as.double(price), as.integer(qty), as.integer(0), PACKAGE='MOBSTER')[[7]]
+#	id <- .C("replace",  as.integer(ordid), as.character(sym), as.character(trader), as.integer(side), as.double(price), as.integer(qty), as.integer(0), PACKAGE='mobster')[[7]]
 #	return(id)
 #}
 
@@ -198,7 +198,7 @@ cancel <- function(id, qty=0, time=0, externalId=0) {
 init.book <- function(n=10000, ask=100.00, bid=99.99) {
 	orders <<- data.table(id=1:1000000, sym=rep("sym",1000000), trader=rep("t",1000000), price=rep(0,1000000), side=rep(0,1000000), qty=rep(0,1000000), tradeype=rep("tt",1000000), key="id")
 	# prices are required to be shorts for arrayindexing in c code
-	.C("init", as.integer(n), as.integer(ask*100),as.integer(bid*100), PACKAGE='MOBSTER')
+	.C("init", as.integer(n), as.integer(ask*100),as.integer(bid*100), PACKAGE='mobster')
 }
 
 
@@ -221,7 +221,7 @@ get.execs <- function(n) {
 	exec_price <- rep(1:n)
 	exec_midp <- rep(1:n)
 	
-	execRes <- .C("get_execs", as.integer(n), as.integer(exec_id), as.integer(exec_oid),as.integer(exec_mid),as.integer(exec_side),as.character(exec_trader),as.integer(exec_fillqty),as.integer(exec_price), as.double(exec_midp), as.integer(exec_time), PACKAGE='MOBSTER') 
+	execRes <- .C("get_execs", as.integer(n), as.integer(exec_id), as.integer(exec_oid),as.integer(exec_mid),as.integer(exec_side),as.character(exec_trader),as.integer(exec_fillqty),as.integer(exec_price), as.double(exec_midp), as.integer(exec_time), PACKAGE='mobster') 
 	
 	execRes[[2]] <- execRes[[2]][2:n]
 	execRes[[3]] <- execRes[[3]][2:n]

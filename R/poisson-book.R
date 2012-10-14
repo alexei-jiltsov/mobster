@@ -36,7 +36,7 @@ model.poisson <- function(num=100) {
 
 	
 	# init the book
-	result <- .C("init", as.integer(num), as.integer(10000), as.integer(9999), PACKAGE='MOBSTER')
+	result <- .C("init", as.integer(num), as.integer(10000), as.integer(9999), PACKAGE='mobster')
 
 	for (i in 1:numobs) {
 	

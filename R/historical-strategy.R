@@ -39,7 +39,7 @@ trade.historical.spy <- function(file='/Users/tomappleton/Downloads/20120928_SPY
 	max <- max(df$Price)
 	df <- df[which(df$Price!=max),]
 	
-	result <- .C("init", as.integer(1:1000000), as.integer(max), as.integer(min), PACKAGE='MOBSTER')
+	result <- .C("init", as.integer(1:1000000), as.integer(max), as.integer(min), PACKAGE='mobster')
 	count <<- 1
 	apply(dfs, 1, trade)
 	

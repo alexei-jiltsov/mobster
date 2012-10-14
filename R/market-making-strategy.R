@@ -40,7 +40,7 @@ trade.mm <- function(num=100) {
 	bid1QuoteEvents <- abs(rpois(numobs, bid1QuoteLambda))
 	
 	# init the book
-	result <- .C("init", as.integer(num), as.integer(10000), as.integer(9999), PACKAGE='MOBSTER')
+	result <- .C("init", as.integer(num), as.integer(10000), as.integer(9999), PACKAGE='mobster')
 
 	# strategies current position after filling orders
 	position <- 0
