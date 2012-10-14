@@ -1,7 +1,7 @@
-Package: MOBSTER
+Package: mobster
 Maintainer: <tom.e.appleton@gmail.com>
 License: GPL-2
-Title: Model Order Book State Explorer (MOBSTER)
+Title: Model Order Book State Explorer (mobster)
 Type: Package
 LazyLoad: true
 Author: Tom Appleton
@@ -17,4 +17,4 @@ Date: 2012-09-25
 Depends: R (>= 2.11.0),  data.table (>= 1.7.8),  testthat
 Imports: data.table (>= 1.7.8),  testthat
 Collate: 'depth-strategy.R' 'market-making-strategy.R'
-    'mavg-strategy.R' 'orderbook.R' 'poisson-book.R' 'MOBSTER-package.R' 'historical-strategy.R'
+    'mavg-strategy.R' 'orderbook.R' 'poisson-book.R' 'mobster-package.R' 'historical-strategy.R'
