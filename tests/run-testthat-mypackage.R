@@ -1,3 +1,3 @@
 library("testthat")
-#test_package("MOBSTER")
+#test_package("mobster")
 
