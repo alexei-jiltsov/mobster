@@ -1,4 +1,4 @@
-\name{mobster}
+\name{MOBSTER}
 \title{Model Order Book State Explorer.}
 \description{Model Order Book State Explorer.}
 \details{A lightweight tool set for modelling exchange orderbook dynamics. This package maintains an internal order book
@@ -6,10 +6,9 @@ following the standard Central Limit Order Book algorithm. It currently supports
 
 Orders can be placed in the book using the 'limit' method and 'market' methods. Quotes could be generated from 
 historical data, or from a statistical model. Executions in the order book and the full orderbook history
-can be obtained for analysis purposes. Trades are modelled as a sequence of ordered events, and the notion of 
-'time' between trade arrival events is currently not considered. 
+can be obtained for analysis purposes. Trades are modelled as a sequence of ordered events.
 
-The main engine was designed to be fast for use with large datasets.
+The main engine was designed to be fast for use with largish datasets (up to 1000000 records currently).
 
 Uses include modelling market impact of trades, predicting market moves based on orderbook
 microstructure, analysing trading strategies against an orderbook, modelling trade arrival etc.
@@ -17,8 +16,8 @@ microstructure, analysing trading strategies against an orderbook, modelling tra
 Currently only one symbol is supported (ie one instrument). Future versions may be enhanced to 
 model multiple symbols.}
 \docType{package}
-\alias{mobster}
-\alias{mobster-package}
+\alias{MOBSTER}
+\alias{MOBSTER-package}
 \examples{# first initialise the book (sets the start price, and how many historical rows to clear) 
 init.book(1000)
 
