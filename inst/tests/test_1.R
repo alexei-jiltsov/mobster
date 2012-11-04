@@ -710,4 +710,34 @@ test_that("cancel orders", {
 	
 })
 
+test_that("externalid is populated on execution reports", {
 
+	init(100)
+
+	id1 <- limit("sym", "t2", 1, 100.00, 3, "GTC", externalId=20000)
+	id2 <- limit("sym", "t2", 1, 100.01, 3, "GTC", externalId=20001)
+	id3 <- limit("sym", "t1", 0, 100.01, 1, "GTC", externalId=30002)
+	id4 <- limit("sym", "t1", 0, 100.01, 7, "GTC", externalId=30003)
+	
+	ob <- get.ob()
+	
+	expect_that(ob$price[[10]], equals(100.02))
+	expect_that(ob$price[[11]], equals(100.01))
+	expect_that(ob$qty[[11]], equals(2))
+	expect_that(ob$qty[[10]], equals(0))
+	
+	filled <- get.filled.qty(id1)
+	expect_that(filled, equals(3))
+	
+	e <- get.execs(10)
+	
+	expect_that(e[1]$eoid, equals(30002))
+	expect_that(e[1]$emid, equals(20000))
+	expect_that(e[2]$eoid, equals(20000))
+	expect_that(e[2]$emid, equals(30002))
+	expect_that(e[3]$eoid, equals(30003))
+	expect_that(e[3]$emid, equals(20000))
+	expect_that(e[4]$eoid, equals(20000))
+	expect_that(e[4]$emid, equals(30003))
+
+})
