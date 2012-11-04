@@ -55,9 +55,13 @@ double e_exec_midp[1000000];
 
 /* track how much has been filled in an order */
 int orderFills[1000000];
+
 /* when replaying itch data we may want to cancel a different id to the internally created id */
+/* index is the externalId, value is the internalId */
 int externalIds[100000000];
 
+/* index is the internalId, value is the externalId */
+int internalIds[10000000];
 
 /* Monotonically-increasing orderID */
 static t_orderid curOrderID;          
@@ -157,6 +161,11 @@ void init(int * size, int* RaskMin, int* RbidMax) {
 		ob_bidqty10[i] = 0;
 		
 		orderFills[i] = 0;
+		internalIds[i] = 0;
+
+	}
+	
+	for(int i=0; i<10000000; i++) {
 		externalIds[i] = 0;
 	}	
 }
@@ -166,12 +175,16 @@ void destroy() { }
 
 
 /* get the given number of executions from the execution history */
-void get_execs(int* rows, int* Rid, int*Roid, int* Rmid, int* Rside, char* Rtrader[8], int* Rqty,int* Rprice, double* Rmidp, int* Rtime) {
+void get_execs(int* rows, int* Rid, int*Roid, int* Rmid, int* Rside, char* Rtrader[8], int* Rqty,int* Rprice, double* Rmidp, int* Rtime, int* Reoid, int* Remid) {
 	for(int i=0; i<rows[0]; i++) {
 		Rid[i] = e_exec_id[i];
 		Rtime[i] = e_exec_time[i];
 		Roid[i] = e_exec_oid[i];
 		Rmid[i] = e_exec_mid[i];
+
+		Reoid[i] = internalIds[e_exec_oid[i]];
+		Remid[i] = internalIds[e_exec_mid[i]];
+				
 		Rside[i] = e_exec_side[i];
 		Rtrader[i] = &e_exec_trader[i][0]; 
 		Rqty[i] = e_exec_fillqty[i];
@@ -327,6 +340,7 @@ void limit(char** Rsymbol, char** Rtrader, int* Rside, double* Rprice, int* Rsiz
 	
 	if(externalId[0] >0) {
 		externalIds[externalId[0]] = curOrderID;
+		internalIds[curOrderID] = externalId[0]; 
 	} 
 	
 	if (order.side == 0) {          /* Buy order */
@@ -552,8 +566,14 @@ void cancel(int* orderid, int* qty, int* time, int* externalId) {
 }
 
 /* get the filled qty for an order */
-void getFilledQty(int* id) {
-	int i = id[0];
-	id[0] = orderFills[i];
+void getFilledQty(int* orderid, int* externalId) {
+
+	/* in relay mode the external id will be used to get the filled qty, not the mobster generated id */
+	if(externalId[0] >0) {
+		orderid[0] = externalIds[externalId[0]];
+	}
+
+	int i = orderid[0];
+	orderid[0] = orderFills[i];
 }
 
