@@ -164,8 +164,8 @@ get.ob <- function(){
 #' Get the total filled qty for an order.
 #' @param id the orderid to get the filled qty for
 #' @export
-get.filled.qty <- function(id) {
-	qty <- .C("getFilledQty", as.integer(id), PACKAGE='mobster')[[1]]
+get.filled.qty <- function(id, externalId=0) {
+	qty <- .C("getFilledQty", as.integer(id), as.integer(externalId), PACKAGE='mobster')[[1]]
 	return(qty)
 }
 
@@ -215,13 +215,15 @@ get.execs <- function(n) {
 	exec_time <- rep(1:n)
 	exec_oid <- rep(1:n)
 	exec_mid <- rep(1:n)
+	exec_eoid <- rep(1:n)
+	exec_emid <- rep(1:n)
 	exec_side <- rep(1:n)
 	exec_trader <- rep(1:n)
 	exec_fillqty <- rep(1:n)
 	exec_price <- rep(1:n)
 	exec_midp <- rep(1:n)
 	
-	execRes <- .C("get_execs", as.integer(n), as.integer(exec_id), as.integer(exec_oid),as.integer(exec_mid),as.integer(exec_side),as.character(exec_trader),as.integer(exec_fillqty),as.integer(exec_price), as.double(exec_midp), as.integer(exec_time), PACKAGE='mobster') 
+	execRes <- .C("get_execs", as.integer(n), as.integer(exec_id), as.integer(exec_oid),as.integer(exec_mid),as.integer(exec_side),as.character(exec_trader),as.integer(exec_fillqty),as.integer(exec_price), as.double(exec_midp), as.integer(exec_time), as.integer(exec_eoid),as.integer(exec_emid), PACKAGE='mobster') 
 	
 	execRes[[2]] <- execRes[[2]][2:n]
 	execRes[[3]] <- execRes[[3]][2:n]
@@ -232,8 +234,10 @@ get.execs <- function(n) {
 	execRes[[8]] <- execRes[[8]][2:n]
 	execRes[[9]] <- execRes[[9]][2:n]
 	execRes[[10]] <- execRes[[10]][2:n]
+	execRes[[11]] <- execRes[[11]][2:n]
+	execRes[[12]] <- execRes[[12]][2:n]
 	
-	exec <- data.table(id=execRes[[2]], time=execRes[[10]], oid=execRes[[3]], mid=execRes[[4]], side=execRes[[5]], trader=execRes[[6]], fillqty=execRes[[7]],price=execRes[[8]],midp=execRes[[9]])
+	exec <- data.table(id=execRes[[2]], time=execRes[[10]], oid=execRes[[3]], mid=execRes[[4]], side=execRes[[5]], trader=execRes[[6]], fillqty=execRes[[7]],price=execRes[[8]],midp=execRes[[9]], eoid=execRes[[11]], emid=execRes[[12]])
 	
 	return(exec)
 }
