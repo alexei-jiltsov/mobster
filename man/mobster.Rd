@@ -1,4 +1,4 @@
-\name{MOBSTER}
+\name{mobster}
 \title{Model Order Book State Explorer.}
 \description{Model Order Book State Explorer.}
 \details{A lightweight tool set for modelling exchange orderbook dynamics. This package maintains an internal order book
@@ -16,8 +16,8 @@ microstructure, analysing trading strategies against an orderbook, modelling tra
 Currently only one symbol is supported (ie one instrument). Future versions may be enhanced to 
 model multiple symbols.}
 \docType{package}
-\alias{MOBSTER}
-\alias{MOBSTER-package}
+\alias{mobster}
+\alias{mobster-package}
 \examples{# first initialise the book (sets the start price, and how many historical rows to clear) 
 init.book(1000)
 
@@ -46,20 +46,5 @@ get.execs(10)
 # get the filled qty for the order
 get.filled.qty(id)
 
-# the following examples show how the base 
-# toolkit can be used to perform more sophisticated scenarios.
-
-# models trade arrival from poisson distribution
-\dontrun{
-?model.poisson
-model.poisson(100)
-plot(get.hob(100)[2:1000]$ask0, type='s')
-
-# a bid/offer market making strategy that provides liquidity
-?trade.mm
-trade.mm(100)
-
-# now analyse the performance
-?trade.mm.analyse
-trade.mm.analyse(100)
-}}
+# see applett/rstuff for examples of how the toolkit 
+# can be used to perform more sophisticated scenarios.}

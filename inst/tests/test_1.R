@@ -3,8 +3,6 @@
 # perf <- data.frame(n=1:100000, t=rep(0,100000))
 # for(i in 1:100000) { init(i); x<- system.time(generate()); perf[i,]$t=x[[3]]}
 
-#source("/Users/tomappleton/Documents/workspace/checkout/model-book-explorer/MOBSTER/inst/tests/test_1.R")
-
 
 
 init <- function(num=1000) {
@@ -13,9 +11,6 @@ init <- function(num=1000) {
 	library(testthat)
 	library(data.table)
 	library(mobster)
-
-	#source('/Users/tomappleton/Documents/workspace/checkout/model-book-explorer/MOBSTER/R/orderbook.R')
-
 
 	.C("init", as.integer(num), as.integer(10000), as.integer(9999))
 	

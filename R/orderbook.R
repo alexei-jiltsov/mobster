@@ -6,6 +6,7 @@
 #' @export
 .onLoad <- function(libname, pkgname) {
 	library.dynam("mobster", pkgname, libname)
+	# maintain all of the orders for historical analysis 
 	orders <<- data.table(id=1:1000000, sym=rep("sym",1000000), trader=rep("t",1000000), price=rep(0,1000000), side=rep(0,1000000), qty=rep(0,1000000), tradeype=rep("tt",1000000), time=rep(0,1000000), externalId=rep(0,1000000), key="id")
 	# default initialisation
 	.C("init", as.integer(100000), as.integer(100*100),as.integer(99.99*100), PACKAGE='mobster')
@@ -30,7 +31,7 @@ limit <- function(sym, trader, side, price, qty, tradetype, time=0, externalId =
 	}
 	result <<-.C("limit", as.character(sym), as.character(trader), as.integer(side), as.double(price), as.integer(qty), as.integer(0), as.character(tradetype), as.integer(time), as.integer(externalId), PACKAGE='mobster')
 	lastOrderId <- result[[6]]
-	
+
 	set(orders, as.integer(lastOrderId), as.integer(2), result[[1]]) #sym 
 	set(orders, as.integer(lastOrderId), as.integer(3), result[[2]]) #trader
 	set(orders, as.integer(lastOrderId), as.integer(4), result[[4]]) #price
@@ -52,6 +53,8 @@ limit <- function(sym, trader, side, price, qty, tradetype, time=0, externalId =
 #' @param side int. The side of the trade. buy=0, sell=1
 #' @param price double. not used
 #' @param qty int. The qty to be traded
+#' @param time the time the order was cancelled (when replaying historical data).
+#' @param externalId the id of the original order (use when replaying historical data). 
 #' @export
 market <- function(sym, trader, side, price, qty, time=0, externalId = 0) {
 
@@ -163,6 +166,7 @@ get.ob <- function(){
 
 #' Get the total filled qty for an order.
 #' @param id the orderid to get the filled qty for
+#' @param externalId the id of the original order (use when replaying historical data). 
 #' @export
 get.filled.qty <- function(id, externalId=0) {
 	qty <- .C("getFilledQty", as.integer(id), as.integer(externalId), PACKAGE='mobster')[[1]]
@@ -172,7 +176,10 @@ get.filled.qty <- function(id, externalId=0) {
 
 #' Cancel an order/quote
 #' cancels an order in the orderbook. The order is removed from the book. 
-#' @param id the orderid to cancel. 
+#' @param id the orderid to cancel.
+#' @param qty the qty of the order to cancel.
+#' @param time the time the order was cancelled (when replaying historical data).
+#' @param externalId the id of the original order (use when replaying historical data). 
 #' @export
 cancel <- function(id, qty=0, time=0, externalId=0) {
 	id <- .C("cancel", as.integer(id), as.integer(qty), as.integer(time), as.integer(externalId), PACKAGE='mobster')[[1]]
@@ -196,7 +203,7 @@ cancel <- function(id, qty=0, time=0, externalId=0) {
 #' @param bid The starting bid price
 #' @export
 init.book <- function(n=10000, ask=100.00, bid=99.99) {
-	orders <<- data.table(id=1:1000000, sym=rep("sym",1000000), trader=rep("t",1000000), price=rep(0,1000000), side=rep(0,1000000), qty=rep(0,1000000), tradeype=rep("tt",1000000), key="id")
+	orders <<- data.table(id=1:1000000, sym=rep("sym",1000000), trader=rep("t",1000000), price=rep(0,1000000), side=rep(0,1000000), qty=rep(0,1000000), tradeype=rep("tt",1000000), time=rep(0,1000000), externalId=rep(0,1000000), key="id")
 	# prices are required to be shorts for arrayindexing in c code
 	.C("init", as.integer(n), as.integer(ask*100),as.integer(bid*100), PACKAGE='mobster')
 }

@@ -3,4 +3,5 @@
 \title{Get the total filled qty for an order.}
 \usage{get.filled.qty(id, externalId=0)}
 \description{Get the total filled qty for an order.}
-\arguments{\item{id}{the orderid to get the filled qty for}}
+\arguments{\item{id}{the orderid to get the filled qty for}
+\item{externalId}{the id of the original order (use when replaying historical data).}}

@@ -9,4 +9,6 @@ more depth in the orderbook.}
 \item{trader}{string. The trader (or strategy name) making the trade}
 \item{side}{int. The side of the trade. buy=0, sell=1}
 \item{price}{double. not used}
-\item{qty}{int. The qty to be traded}}
+\item{qty}{int. The qty to be traded}
+\item{time}{the time the order was cancelled (when replaying historical data).}
+\item{externalId}{the id of the original order (use when replaying historical data).}}

@@ -45,27 +45,12 @@
 #' # get the filled qty for the order
 #' get.filled.qty(id)
 #'
-#' # the following examples show how the base 
-#' # toolkit can be used to perform more sophisticated scenarios.
+#' # see applett/rstuff for examples of how the toolkit 
+#' # can be used to perform more sophisticated scenarios.
 #'   
-#' # models trade arrival from poisson distribution
-#' \dontrun{
-#'    ?model.poisson
-#'    model.poisson(100)
-#'    plot(get.hob(100)[2:1000]$ask0, type='s')
-#'
-#'    # a bid/offer market making strategy that provides liquidity
-#'    ?trade.mm
-#'    trade.mm(100)
-#' 
-#'    # now analyse the performance
-#'    ?trade.mm.analyse
-#'    trade.mm.analyse(100)
-#' }
-#'
 #' @docType package
-#' @name MOBSTER
-#' @aliases MOBSTER MOBSTER-package
+#' @name mobster
+#' @aliases mobster mobster-package
 #' @import data.table
 #' @import testthat
 
