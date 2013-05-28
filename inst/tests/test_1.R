@@ -416,112 +416,112 @@ test_that("sell order sweeps the bid market",{
 		
 })
 
-test_that("market order", {
-
-	init(100)
-
-	# fill multiple levels
-	limit("sym", "trader", 0, 100.00, 3, "GTC")
-	limit("sym", "trader", 0, 100.01, 3, "GTC")
-	limit("sym", "trader", 0, 100.02, 3, "GTC")
-	limit("sym", "trader", 0, 100.03, 3, "GTC")
-	limit("sym", "trader", 0, 100.04, 3, "GTC")
-
-	# verify which level fills - should be at level 0and price level 0 in the execs
-	#sym, trader, side, price, qty
-	market("sym", "trader", 1, 92.00, 6)
-	ob <- get.ob()
-	expect_that(ob$qty[[11]], equals(3))
-	expect_that(ob$price[[11]], equals(100.02))	
-	expect_that(ob$qty[[12]], equals(3))
-	expect_that(ob$price[[12]], equals(100.01))	
-	
-	init(100)
-
-	# fill multiple levels
-	limit("sym", "trader", 1, 100.00, 3, "GTC")
-	limit("sym", "trader", 1, 100.01, 3, "GTC")
-	limit("sym", "trader", 1, 100.02, 3, "GTC")
-	limit("sym", "trader", 1, 100.03, 3, "GTC")
-	limit("sym", "trader", 1, 100.04, 3, "GTC")
-
-	# verify which level fills - should be at level 0and price level 0 in the execs
-	#sym, trader, side, price, qty
-	market("sym", "trader", 0, 92.00, 6)
-	ob <- get.ob()
-	expect_that(ob$qty[[10]], equals(3))
-	expect_that(ob$price[[10]], equals(100.02))	
-	expect_that(ob$qty[[9]], equals(3))
-	expect_that(ob$price[[9]], equals(100.03))	
-})
-
-
-test_that("market order 2", {
-	init(100)
-
-	# fill multiple levels
-	limit("sym", "trader", 0, 100.00, 3, "GTC")
-	limit("sym", "trader", 0, 100.01, 3, "GTC")
-	limit("sym", "trader", 0, 100.02, 3, "GTC")
-	limit("sym", "trader", 0, 100.03, 3, "GTC")
-	limit("sym", "trader", 0, 100.04, 3, "GTC")
-
-	# verify which level fills - should be at level 0 and price level 0 in the execs
-	#sym, trader, side, price, qty
-	id <- market("sym", "trader", 1, 92.00, 6)
-	ob<-get.ob()
-	expect_that(ob$qty[[11]], equals(3))
-	expect_that(ob$price[[11]], equals(100.02))	
-	expect_that(ob$price[[12]], equals(100.01))	
-	#order <- orders[id]
-
-	init(100)
-
-	# fill multiple levels
-	limit("sym", "trader", 1, 100.00, 3, "GTC")
-	limit("sym", "trader", 1, 100.01, 3, "GTC")
-	limit("sym", "trader", 1, 100.02, 3, "GTC")
-	limit("sym", "trader", 1, 100.03, 3, "GTC")
-	limit("sym", "trader", 1, 100.04, 3, "GTC")
-
-	# verify which level fills - should be at level 0 and price level 0 in the execs
-	#sym, trader, side, price, qty
-	market("sym", "trader", 0, 92.00, 6)
-	ob<-get.ob()
-	expect_that(ob$qty[[10]], equals(3))
-	expect_that(ob$price[[10]], equals(100.02))	
-	expect_that(ob$qty[[9]], equals(3))
-	expect_that(ob$price[[9]], equals(100.03))
-	
-	# empty orderbook market orders
-
-	init(100)
-
-	# verify which level fills - should be at level 0 and price level 0 in the execs
-	#sym, trader, side, price, qty
-	market("sym", "trader", 0, 92.00, 6)
-	ob<-get.ob()
-	expect_that(ob$qty[[10]], equals(0))
-	expect_that(ob$price[[10]], equals(655.36))	
-	expect_that(ob$qty[[9]], equals(0))
-	expect_that(ob$price[[9]], equals(655.37))
-	expect_that(ob$qty[[11]], equals(0))
-	expect_that(ob$price[[11]], equals(99.99))	
-	expect_that(ob$qty[[12]], equals(0))
-	expect_that(ob$price[[12]], equals(99.98))
-		
-	market("sym", "trader",1, 92.00, 6)
-	ob<-get.ob()
-	expect_that(ob$qty[[10]], equals(0))
-	expect_that(ob$price[[10]], equals(655.36))	
-	expect_that(ob$qty[[9]], equals(0))
-	expect_that(ob$price[[9]], equals(655.37))
-	expect_that(ob$qty[[11]], equals(0))
-	expect_that(ob$price[[11]], equals(0.99))	
-	expect_that(ob$qty[[12]], equals(0))
-	expect_that(ob$price[[12]], equals(0.98))
-
-})
+# test_that("market order", {
+# 
+# 	init(100)
+# 
+# 	# fill multiple levels
+# 	limit("sym", "trader", 0, 100.00, 3, "GTC")
+# 	limit("sym", "trader", 0, 100.01, 3, "GTC")
+# 	limit("sym", "trader", 0, 100.02, 3, "GTC")
+# 	limit("sym", "trader", 0, 100.03, 3, "GTC")
+# 	limit("sym", "trader", 0, 100.04, 3, "GTC")
+# 
+# 	# verify which level fills - should be at level 0and price level 0 in the execs
+# 	#sym, trader, side, price, qty
+# 	market("sym", "trader", 1, 92.00, 6)
+# 	ob <- get.ob()
+# 	expect_that(ob$qty[[11]], equals(3))
+# 	expect_that(ob$price[[11]], equals(100.02))	
+# 	expect_that(ob$qty[[12]], equals(3))
+# 	expect_that(ob$price[[12]], equals(100.01))	
+# 	
+# 	init(100)
+# 
+# 	# fill multiple levels
+# 	limit("sym", "trader", 1, 100.00, 3, "GTC")
+# 	limit("sym", "trader", 1, 100.01, 3, "GTC")
+# 	limit("sym", "trader", 1, 100.02, 3, "GTC")
+# 	limit("sym", "trader", 1, 100.03, 3, "GTC")
+# 	limit("sym", "trader", 1, 100.04, 3, "GTC")
+# 
+# 	# verify which level fills - should be at level 0and price level 0 in the execs
+# 	#sym, trader, side, price, qty
+# 	market("sym", "trader", 0, 92.00, 6)
+# 	ob <- get.ob()
+# 	expect_that(ob$qty[[10]], equals(3))
+# 	expect_that(ob$price[[10]], equals(100.02))	
+# 	expect_that(ob$qty[[9]], equals(3))
+# 	expect_that(ob$price[[9]], equals(100.03))	
+# })
+# 
+# 
+# test_that("market order 2", {
+# 	init(100)
+# 
+# 	# fill multiple levels
+# 	limit("sym", "trader", 0, 100.00, 3, "GTC")
+# 	limit("sym", "trader", 0, 100.01, 3, "GTC")
+# 	limit("sym", "trader", 0, 100.02, 3, "GTC")
+# 	limit("sym", "trader", 0, 100.03, 3, "GTC")
+# 	limit("sym", "trader", 0, 100.04, 3, "GTC")
+# 
+# 	# verify which level fills - should be at level 0 and price level 0 in the execs
+# 	#sym, trader, side, price, qty
+# 	id <- market("sym", "trader", 1, 92.00, 6)
+# 	ob<-get.ob()
+# 	expect_that(ob$qty[[11]], equals(3))
+# 	expect_that(ob$price[[11]], equals(100.02))	
+# 	expect_that(ob$price[[12]], equals(100.01))	
+# 	#order <- orders[id]
+# 
+# 	init(100)
+# 
+# 	# fill multiple levels
+# 	limit("sym", "trader", 1, 100.00, 3, "GTC")
+# 	limit("sym", "trader", 1, 100.01, 3, "GTC")
+# 	limit("sym", "trader", 1, 100.02, 3, "GTC")
+# 	limit("sym", "trader", 1, 100.03, 3, "GTC")
+# 	limit("sym", "trader", 1, 100.04, 3, "GTC")
+# 
+# 	# verify which level fills - should be at level 0 and price level 0 in the execs
+# 	#sym, trader, side, price, qty
+# 	market("sym", "trader", 0, 92.00, 6)
+# 	ob<-get.ob()
+# 	expect_that(ob$qty[[10]], equals(3))
+# 	expect_that(ob$price[[10]], equals(100.02))	
+# 	expect_that(ob$qty[[9]], equals(3))
+# 	expect_that(ob$price[[9]], equals(100.03))
+# 	
+# 	# empty orderbook market orders
+# 
+# 	init(100)
+# 
+# 	# verify which level fills - should be at level 0 and price level 0 in the execs
+# 	#sym, trader, side, price, qty
+# 	market("sym", "trader", 0, 92.00, 6)
+# 	ob<-get.ob()
+# 	expect_that(ob$qty[[10]], equals(0))
+# 	expect_that(ob$price[[10]], equals(655.36))	
+# 	expect_that(ob$qty[[9]], equals(0))
+# 	expect_that(ob$price[[9]], equals(655.37))
+# 	expect_that(ob$qty[[11]], equals(0))
+# 	expect_that(ob$price[[11]], equals(99.99))	
+# 	expect_that(ob$qty[[12]], equals(0))
+# 	expect_that(ob$price[[12]], equals(99.98))
+# 		
+# 	market("sym", "trader",1, 92.00, 6)
+# 	ob<-get.ob()
+# 	expect_that(ob$qty[[10]], equals(0))
+# 	expect_that(ob$price[[10]], equals(655.36))	
+# 	expect_that(ob$qty[[9]], equals(0))
+# 	expect_that(ob$price[[9]], equals(655.37))
+# 	expect_that(ob$qty[[11]], equals(0))
+# 	expect_that(ob$price[[11]], equals(0.99))	
+# 	expect_that(ob$qty[[12]], equals(0))
+# 	expect_that(ob$price[[12]], equals(0.98))
+# 
+# })
 
 test_that("trader is passed correctly", {
 
