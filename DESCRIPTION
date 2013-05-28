@@ -16,4 +16,4 @@ Version: 1.0.0
 Date: 2012-09-25
 Depends: R (>= 2.11.0),  data.table (>= 1.7.8),  testthat
 Imports: data.table (>= 1.7.8),  testthat
-Collate: 'orderbook.R' 'mobster-package.R' 
+Collate: 'orderbook.R' 'MOBSTER-package.R' 
